@@ -10,6 +10,7 @@ import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -22,8 +23,14 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
+    }
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/").setViewName("/index.html");
+        registry.addViewController("/login.html").setViewName("/login.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
