@@ -5,3 +5,12 @@ spring:
     user:
       name: user
       password: user
+  datasource:
+    password: zhuliang
+    username: root
+    url: jdbc:mysql://localhost:3306/manager?characterEncoding=UTF8&amp&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    hikari:
+      auto-commit: true
+logging:
+  pattern:
+    level: debug
