@@ -25,6 +25,7 @@ public class Permission implements Serializable {
 	private Integer id;
 	private String name;
 	private String url;
+	private Integer menu;
 
 
 	public Integer getId() {
@@ -56,6 +57,14 @@ public class Permission implements Serializable {
 	public static final String NAME = "name";
 
 	public static final String URL = "url";
+
+	public Integer getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Integer menu) {
+		this.menu = menu;
+	}
 
 	@Override
 	public String toString() {

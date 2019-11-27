@@ -11,17 +11,20 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.zhuliang.oauth.contact.KaptchaContact;
+import com.zhuliang.oauth.contact.LoginContact;
 import com.zhuliang.oauth.exception.VerificationCodeException;
 import com.zhuliang.oauth.handle.ServerAuthenticationFailureHandler;
 
 /**
- * 验证码拦截器
+ * 验证码拦截器  初级实现方法
  * @author zhuliang
  * @date 2019年11月22日
  */
+@Component
 public class VerificationCodeFIlter extends OncePerRequestFilter{
 
     private AuthenticationFailureHandler authenticationFailureHandler = new ServerAuthenticationFailureHandler();
@@ -29,7 +32,9 @@ public class VerificationCodeFIlter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            verificationCode(request, response);
+        	if (Objects.equals(LoginContact.LOGIN_PATH, request.getServletPath())) {
+        		verificationCode(request, response);
+			}
             filterChain.doFilter(request, response);
         } catch (VerificationCodeException e) {
             authenticationFailureHandler.onAuthenticationFailure(request, response, e);

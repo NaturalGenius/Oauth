@@ -29,7 +29,7 @@ public class WebBeanConfig {
    }
    
    @Bean
-   public PasswordEncoder p() {
+   public PasswordEncoder passwordEncoder() {
        return NoOpPasswordEncoder.getInstance();
    }
    

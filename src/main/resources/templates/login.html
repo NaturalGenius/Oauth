@@ -7,7 +7,7 @@
 <title>欢迎登陆</title>
 </head>
 <body>
-<form action="login.html" method="post">
+<form id="form" action="/auth/login" method="post">
     <table>
       <tr>
         <td>
@@ -16,13 +16,13 @@
       </tr>
       <tr>
         <td>
-                               密码:<input name="password">
+                               密码:<input name="password" type="password">
         </td>
           <!-- <input name="redirectUrl" th:value="${redirectUrl}" type="hidden"> -->
       </tr>
        <tr>
         <td>
-                                验证码:<input name="code">
+                                验证码:<input name="kaptcha">
         </td>
         <td>
              <img id="imgObj" alt="验证码" th:src="@{/kaptcha/image}"  onclick="javascript:changeImg()"/>  
@@ -31,21 +31,24 @@
       </tr>
       <tr>
         <td>
-            <input id = "submit" type="submit" value="登录">
+            <input name="phone" value="zhuliang" type="hidden">
+            <input name="verificationCode" value="8888" type="hidden">
+            <input id="submit" type="button" value="登录">
         </td>
       </tr>
     </table>
 </form>
 <script th:inline="javascript">
 
-var redirectUrl = [[${redirectUrl}]]
-/* $("#submit").click(function(){
+//var redirectUrl = [[${redirectUrl}]]
+$("#submit").click(function(){
 	  $('#form').ajaxSubmit({  
-	   url: '/dologin',  
+	  // url: '/auth/login',  
+	   url: '/auth/phone/login',  
 	   type: 'post',  
 	   success: function (data) {  
-	     if(data.code == 10200){
-	        window.location.href = redirectUrl + "?ticket=" + data.data.ticket;
+	     if(data.code == 200){
+	        window.location.href = "/";
 	     }else{
 	    	 changeImg();
 	        alert(data.message)
@@ -54,7 +57,7 @@ var redirectUrl = [[${redirectUrl}]]
 	     clearForm: false,//禁止清楚表单  
 	     resetForm: false //禁止重置表单  
 	});  
-}); */
+});
 
 //刷新图片  
 function changeImg() {  
