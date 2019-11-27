@@ -20,7 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         .antMatchers("/user/**").hasAnyRole("user")
         .antMatchers("/admin/**").hasAnyRole("admin")
         .anyRequest().authenticated().and().formLogin()
-                .loginPage("/login.html").permitAll().successHandler((request, response, authentication) -> {
+                .loginPage("/login.html")
+                .loginProcessingUrl("/auth/login")//登录地址
+                .permitAll().successHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=UTF-8");
                     PrintWriter writer = response.getWriter();
                     writer.write(JSON.toJSONString(

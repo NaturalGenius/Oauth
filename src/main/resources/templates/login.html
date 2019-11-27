@@ -20,26 +20,26 @@
         </td>
           <!-- <input name="redirectUrl" th:value="${redirectUrl}" type="hidden"> -->
       </tr>
-     <!--  <tr>
+       <tr>
         <td>
                                 验证码:<input name="code">
         </td>
         <td>
-             <img id="imgObj" alt="验证码" th:src="@{/validateCode}"  onclick="javascript:changeImg()"/>  
+             <img id="imgObj" alt="验证码" th:src="@{/kaptcha/image}"  onclick="javascript:changeImg()"/>  
              <a href="#" onclick="javascript:changeImg()">换一张</a>  
         </td>
       </tr>
-      <tr> -->
+      <tr>
         <td>
             <input id = "submit" type="submit" value="登录">
         </td>
       </tr>
     </table>
 </form>
-<!-- <script th:inline="javascript">
+<script th:inline="javascript">
 
 var redirectUrl = [[${redirectUrl}]]
-$("#submit").click(function(){
+/* $("#submit").click(function(){
 	  $('#form').ajaxSubmit({  
 	   url: '/dologin',  
 	   type: 'post',  
@@ -54,7 +54,7 @@ $("#submit").click(function(){
 	     clearForm: false,//禁止清楚表单  
 	     resetForm: false //禁止重置表单  
 	});  
-});
+}); */
 
 //刷新图片  
 function changeImg() {  
@@ -76,6 +76,6 @@ function changeUrl(url) {
     }  
     return url;
 }  
-</script> -->
+</script>
 </body>
 </html>

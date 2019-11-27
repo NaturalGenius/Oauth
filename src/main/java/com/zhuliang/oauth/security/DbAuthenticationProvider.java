@@ -43,6 +43,6 @@ public class DbAuthenticationProvider implements AuthenticationProvider{
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return true;
+		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 }
