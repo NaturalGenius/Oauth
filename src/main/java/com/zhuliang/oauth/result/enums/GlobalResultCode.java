@@ -36,6 +36,7 @@ public enum GlobalResultCode implements ResultCode{
     REMOTING_ERROR(900,"调用远程服务异常"),
     METHOD_NOT_ALLOWED(405, "请求方式不支持"),
     URL_NOT_FOUND(404, "访问的页面不存在"),
+    FORBIDDEN(403, "拒绝访问"),
     SHA256_VERIFY_ERROR(119, "参数验签失败");
 
     /**

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
@@ -15,7 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
  * @author zhuliang
  * @since 2019-12-03
  */
-public class Role implements Serializable {
+public class RolePermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,30 +25,14 @@ public class Role implements Serializable {
     private Integer id;
 
     /**
-     * 权限名称
+     * 角色ID
      */
-    private String name;
+    private Integer roleId;
 
     /**
-     * 级别 1 普通用户 2 系统管理员 3 超级管理员
+     * 权限ID
      */
-    private Integer level;
-
-    /**
-     * 所属系统名称
-     */
-    private String system;
-
-    /**
-     * 父ID
-     */
-    private Integer pid;
-
-    /**
-     * 描述
-     */
-    @TableField("`desc`")
-    private String desc;
+    private Integer permissionId;
 
     /**
      * 操作人id
@@ -85,44 +68,20 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getPermissionId() {
+        return permissionId;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public String getSystem() {
-        return system;
-    }
-
-    public void setSystem(String system) {
-        this.system = system;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setPermissionId(Integer permissionId) {
+        this.permissionId = permissionId;
     }
 
     public Integer getOperatorId() {
@@ -167,15 +126,9 @@ public class Role implements Serializable {
 
     public static final String ID = "id";
 
-    public static final String NAME = "name";
+    public static final String ROLE_ID = "role_id";
 
-    public static final String LEVEL = "level";
-
-    public static final String SYSTEM = "system";
-
-    public static final String PID = "pid";
-
-    public static final String DESC = "desc";
+    public static final String PERMISSION_ID = "permission_id";
 
     public static final String OPERATOR_ID = "operator_id";
 
@@ -189,13 +142,10 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "RolePermission{" +
         "id=" + id +
-        ", name=" + name +
-        ", level=" + level +
-        ", system=" + system +
-        ", pid=" + pid +
-        ", desc=" + desc +
+        ", roleId=" + roleId +
+        ", permissionId=" + permissionId +
         ", operatorId=" + operatorId +
         ", operator=" + operator +
         ", createTime=" + createTime +

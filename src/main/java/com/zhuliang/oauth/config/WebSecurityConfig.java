@@ -10,10 +10,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import com.zhuliang.oauth.contact.LoginContact;
+import com.zhuliang.oauth.filter.CustomFilterSecurityInterceptor;
 import com.zhuliang.oauth.filter.VerificationCodeFIlter;
+import com.zhuliang.oauth.handle.CustomAccessDeniedHandler;
 import com.zhuliang.oauth.handle.ServerAuthenticationFailureHandler;
 import com.zhuliang.oauth.handle.ServerAuthenticationSuccessHandler;
 import com.zhuliang.oauth.provider.DbAuthenticationProvider;
@@ -37,11 +40,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
 	@Autowired
 	private PhoneAuthenticationSecurityConfig phoneAuthenticationSecurityConfig;
+	
+	@Autowired
+	private CustomFilterSecurityInterceptor customFilterSecurityInterceptor;
+	
+	@Autowired
+	private CustomAccessDeniedHandler customAccessDeniedHandler;
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/static/**", "/test/**", "/api/**", "/kaptcha/image").permitAll()
-        .antMatchers("/user/**").hasAnyRole("user")
-        .antMatchers("/admin/**").hasAnyRole("admin")
+        http.authorizeRequests().antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
         .anyRequest().authenticated().and().formLogin()
                 .loginPage("/login.html")
                 .loginProcessingUrl(LoginContact.LOGIN_PATH)
@@ -53,7 +60,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and().csrf().disable();
         //初级实现验证码
            //  http.addFilterBefore(verificationCodeFIlter, UsernamePasswordAuthenticationFilter.class);
-          http.apply(phoneAuthenticationSecurityConfig);
+          http.apply(phoneAuthenticationSecurityConfig)
+               .and()
+               .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
+              .and()//添加自定义权限过滤器
+              .addFilterBefore(customFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
     
     @Override
