@@ -49,4 +49,5 @@ public class DbAuthenticationProvider extends DaoAuthenticationProvider{
 		//调用父类实现密码验证
 		super.additionalAuthenticationChecks(userDetails, authentication);
 	}
+	
 }
