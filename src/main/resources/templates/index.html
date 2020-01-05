@@ -9,5 +9,35 @@
 <body>
 <h1>欢迎来到单点登录系统</h1>
 <a href="/logout">登出</a>
+
+<div id="tab_1" name="tab" style="width: 25%;text-align: center;background-color: #3fa4f8;">项目信息</div>
+<div id="tab_2" name="tab" style="width: 25%;text-align: center;">施工预算</div>
+<div id="tab_3" name="tab" style="width: 25%;text-align: center;">施工计划</div>
+<div id="tab_4" name="tab" style="width: 25%;text-align: center;">施工日志</div>
+
+<div id="tab_1_content" name="tab_content" style="font-size: 12px;margin-top: 40px;">项目信息</div>
+<div id="tab_2_content" name="tab_content" style="font-size: 12px;margin-top: 40px;">施工预算</div>
+<div id="tab_3_content" name="tab_content" style="font-size: 12px;margin-top: 40px;">施工计划</div>
+<div id="tab_4_content" name="tab_content" style="font-size: 12px;margin-top: 40px;">施工日志</div>
+
+<script th:inline="javascript">
+	var tabs = document.getElementsByName("tab");
+	for(var i=0;i<tabs.length;i++){
+	tabs[i].index = i;
+	tabs[i].addEventListener("tap",function(){
+	this.style.backgroundColor = "#3fa4f8";
+	document.getElementById(this.id+"_content").style.display="block";
+	for(var j=0;j<tabs.length;j++){
+	if(this.index==j){
+	continue;
+	}else{
+	tabs[j].style.backgroundColor = "#0184f1";
+	document.getElementById(tabs[j].id+"_content").style.display="none";
+	}
+	}
+	});
+	}
+
+</script>
 </body>
 </html>

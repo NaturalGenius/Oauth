@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
@@ -57,6 +58,7 @@ public class RolePermission implements Serializable {
     /**
      * 状态 1正常 2 删除
      */
+    @TableField("`status`")
     private Integer status;
 
 

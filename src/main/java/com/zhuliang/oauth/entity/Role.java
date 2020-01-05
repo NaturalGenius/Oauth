@@ -28,16 +28,19 @@ public class Role implements Serializable {
     /**
      * 权限名称
      */
+    @TableField("`name`")
     private String name;
 
     /**
      * 级别 1 普通用户 2 系统管理员 3 超级管理员
      */
+    @TableField("`level`")
     private Integer level;
 
     /**
      * 所属系统名称
      */
+    @TableField("`system`")
     private String system;
 
     /**
@@ -74,6 +77,7 @@ public class Role implements Serializable {
     /**
      * 状态 1正常 2 删除
      */
+    @TableField("`status`")
     private Integer status;
 
 

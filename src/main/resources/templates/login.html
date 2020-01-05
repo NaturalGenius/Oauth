@@ -15,19 +15,39 @@
 <div class="login-page">
 <form id="form" method="post">
    <div class="login-content">
-     <div class="login-tit">登录</div>
-     <div class="login-input">
-       <input  name="username" type="text" placeholder="用户名/手机号">
-     </div>
+     <div class="tab-container">
+ 		<ul class="tab-head login-tit">
+ 		 <li id="1" class="select" th:onclick="$(this)"><a href="#">新闻</a></li>
+ 		 <li id="2" th:onclick="$(this)"><a href="#">规则</a></li>
+ 		</ul>
+ 		<div id="tab-panel" class="tab-panel">
+		  <section id="panel-1"><p>
+		   	 <div  class="login-input">
+		        <input style="margin-top: 25px" name="username" type="text" placeholder="用户名/手机号">
+		     </div>
+		     <div class="login-input">
+		       <input name="password" type="password" placeholder="密码">
+		    </div>
+	     	<div class="login-input">
+		    <div style="margin:5px 0px;">
+					<input name="kaptcha" type="text" style="width:200px;" placeholder="请输入验证码..."/>
+					<img id="imgObj" th:src="@{/kaptcha/image}"  onclick="javascript:changeImg()" style="vertical-align:bottom;" alt="验证码"/>
+			</div>
+	    	</div>
+		  </p>
+		 </section>	
+		  <section id="panel-2">
+		  <p>
+		  <div  class="login-input">
+	       <input style="margin-top: 25px" name="username" type="text" placeholder="用户名/手机号">
+	     </div>
      <div class="login-input">
       <input name="password" type="password" placeholder="密码">
     </div>
-     <div class="login-input">
-	    <div style="margin:5px 0px;">
-				<input name="kaptcha" type="text" style="width:200px;" placeholder="请输入验证码..."/>
-				<img id="imgObj" th:src="@{/kaptcha/image}"  onclick="javascript:changeImg()" style="vertical-align:bottom;" alt="验证码"/>
-		</div>
-    </div>
+		  </p>	
+		  </section>
+ 		</div>
+ </div>
     <div class="login-btn">
       <div class="login-btn-left" id= "submit">
         <span>登录</span>
@@ -97,5 +117,17 @@
 			}
 		    return url;
 		}  
+		
+
+		 function $(id){
+		 	var lis = document.getElementsByTagName('li');
+		 	for (var i = 0; i < lis.length; i++) {
+		 		lis[i].setAttribute('class','');
+		 	};
+		 	id.setAttribute('class','select');
+		 	var ele = document.getElementById('tab-panel');
+		 	ele.style.left=-(id.id-1)+'00%';
+		 }
 </script>
 </body>
+</html>

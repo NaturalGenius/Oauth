@@ -29,6 +29,7 @@ public class Permission implements Serializable {
     /**
      * 权限名称
      */
+    @TableField("`name`")
     private String name;
 
     /**
@@ -44,6 +45,7 @@ public class Permission implements Serializable {
     /**
      * 所属系统
      */
+    @TableField("`system`")
     private String system;
 
     /**
@@ -85,6 +87,7 @@ public class Permission implements Serializable {
     /**
      * 状态 1正常 2 删除
      */
+    @TableField("`status`")
     private Integer status;
 
     /**
