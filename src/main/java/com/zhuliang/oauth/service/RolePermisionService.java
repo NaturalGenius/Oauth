@@ -1,7 +1,7 @@
 package com.zhuliang.oauth.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zhuliang.oauth.entity.RolePermision;
+import com.zhuliang.oauth.entity.RolePermission;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.zhuliang.oauth.entity.RolePermision;
  * @author zhuliang
  * @since 2017-12-20
  */
-public interface RolePermisionService extends IService<RolePermision> {
+public interface RolePermisionService extends IService<RolePermission> {
 	
 }

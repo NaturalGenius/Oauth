@@ -1,6 +1,9 @@
 package com.zhuliang.oauth.service;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhuliang.oauth.dto.PermissionDto;
 import com.zhuliang.oauth.entity.Permission;
 
 /**
@@ -13,4 +16,9 @@ import com.zhuliang.oauth.entity.Permission;
  */
 public interface PermissionService extends IService<Permission> {
 	
+    /**
+     * 获取所有的权限
+     * @return
+     */
+    List<PermissionDto>  getAllPermissions();
 }

@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.zhuliang.oauth.detailsource.DbWebAuthenticationDetails;
 import com.zhuliang.oauth.exception.VerificationCodeException;
 import com.zhuliang.oauth.security.DbUserDetailsService;
+import com.zhuliang.oauth.source.detail.DbWebAuthenticationDetails;
 
 /**
  * 用户名密码登陆 新增验证码验证逻辑 由于spring security 已经提供了
@@ -49,4 +49,5 @@ public class DbAuthenticationProvider extends DaoAuthenticationProvider{
 		//调用父类实现密码验证
 		super.additionalAuthenticationChecks(userDetails, authentication);
 	}
+	
 }

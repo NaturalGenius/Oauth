@@ -1,7 +1,7 @@
 package com.zhuliang.oauth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zhuliang.oauth.entity.RolePermision;
+import com.zhuliang.oauth.entity.RolePermission;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.zhuliang.oauth.entity.RolePermision;
  * @author zhuliang
  * @since 2017-12-20
  */
-public interface RolePermisionMapper extends BaseMapper<RolePermision> {
+public interface RolePermisionMapper extends BaseMapper<RolePermission> {
 
 }

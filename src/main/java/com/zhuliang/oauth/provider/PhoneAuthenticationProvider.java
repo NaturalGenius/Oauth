@@ -34,14 +34,14 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider{
 		String verificationCode = (String) authentication.getCredentials();
 		//此出从从放验证码的地方获取
 		String code = "8888";
-		if (StringUtils.isAllEmpty(code)) {
+		if (StringUtils.isEmpty(code)) {
 			throw new PhontVerificationCodeException("验证码失效");
 		}
 		if (StringUtils.isEmpty(verificationCode)) {
 			throw new PhontVerificationCodeException("验证码不能为空");
 		}
-		if (Objects.equals(verificationCode, code)) {
-			
+		if (!Objects.equals(verificationCode, code)) {
+		    throw new PhontVerificationCodeException("验证码不正确");
 		}
 		PhoneAuthenticationToken phoneAuthenticationToken = new PhoneAuthenticationToken(authentication.getPrincipal(), code, userDetails.getAuthorities());
 		phoneAuthenticationToken.setDetails(authentication.getDetails());

@@ -53,4 +53,9 @@ public class WebBeanConfig {
        producer.setConfig(config);
        return producer;
    }
+   
+   public static void main(String[] args) {
+       BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+       System.out.println(bCryptPasswordEncoder.encode("111"));
+   }
 }

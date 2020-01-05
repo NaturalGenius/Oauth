@@ -71,4 +71,17 @@ public class UserDetail implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	@Override
+    public int hashCode() {
+        return getUsername().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof UserDetail) {
+            return ((UserDetail) obj).getUsername().endsWith(getUsername());
+        }
+        return false;
+    }
 }

@@ -1,5 +1,7 @@
 package com.zhuliang.oauth.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhuliang.oauth.entity.User;
 
@@ -14,4 +16,7 @@ import com.zhuliang.oauth.entity.User;
 public interface UserService extends IService<User> {
 	
 	User selectByAccount(String account);
+	
+	@PreAuthorize("hasPermission(#id, 'SAVE')")
+	void saveUser(User user);
 }

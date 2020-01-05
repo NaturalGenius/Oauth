@@ -1,5 +1,6 @@
 package com.zhuliang.oauth.service.impl;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +27,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 		return getOne(Wrappers.<User>query().eq(User.ACCOUNT, account));
 	}
 	
-	@Override
-	public boolean save(User entity) {
-	    return super.save(entity);
-	}
+
+    @Override
+    @PreAuthorize("hasPermission(#id, 'SAVE')")
+    public void saveUser(User user) {
+        super.save(user);
+    }
 }
