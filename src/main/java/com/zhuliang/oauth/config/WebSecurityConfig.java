@@ -53,8 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	private CustomSessionInformationExpiredStrategy customSessionInformationExpiredStrategy;
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
-        .anyRequest().authenticated().and().formLogin()
+        http
+        .authorizeRequests()
+        .antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
+        .anyRequest().authenticated().and()
+        .formLogin()
                 .loginPage("/login.html")
                 .loginProcessingUrl(LoginContact.LOGIN_PATH)
                 .permitAll()

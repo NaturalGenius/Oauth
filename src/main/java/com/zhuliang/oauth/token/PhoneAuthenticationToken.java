@@ -2,7 +2,7 @@ package com.zhuliang.oauth.token;
 
 import java.util.Collection;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -10,38 +10,19 @@ import org.springframework.security.core.GrantedAuthority;
  * @author MSI-PC
  *
  */
-public class PhoneAuthenticationToken extends AbstractAuthenticationToken{
+public class PhoneAuthenticationToken extends UsernamePasswordAuthenticationToken{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final Object principal;
-	private Object credentials;
-	
 	public PhoneAuthenticationToken(Object principal, Object credentials,
 			Collection<? extends GrantedAuthority> authorities) {
-		super(authorities);
-		this.principal = principal;
-		this.credentials = credentials;
-		super.setAuthenticated(true); 
+	    super(principal, credentials, authorities);
 	}
 
 	public  PhoneAuthenticationToken(Object principal, Object credentials) {
-		super(null);
-		this.principal = principal;
-		this.credentials = credentials;
-		setAuthenticated(false);
+		super(principal, credentials);
 	}
-	@Override
-	public Object getCredentials() {
-		return credentials;
-	}
-
-	@Override
-	public Object getPrincipal() {
-		return principal;
-	}
-
 }

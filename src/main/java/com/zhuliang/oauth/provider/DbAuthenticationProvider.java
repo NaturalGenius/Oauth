@@ -50,4 +50,8 @@ public class DbAuthenticationProvider extends DaoAuthenticationProvider{
 		super.additionalAuthenticationChecks(userDetails, authentication);
 	}
 	
+	@Override
+	public boolean supports(Class<?> authentication) {
+	     return authentication.isAssignableFrom(UsernamePasswordAuthenticationToken.class);
+	}
 }

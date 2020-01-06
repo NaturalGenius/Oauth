@@ -100,7 +100,7 @@ left: 0;
 }
 .login-content{
   width: 400px;
-  height: 350px;
+  height: 360px;
   margin: 0 auto;
   position: relative;
   top: 150px;
@@ -165,12 +165,12 @@ margin: 30px auto 0 auto;
 	}
 	a{
 		text-decoration: none;
-		color: #ff6666;
+		color: black;
 		font-family: Arial;
 	}
 	.tab-container{
 		width: 400px;
-		height: 270px;
+		height: 350px;
 		position: relative;
 		overflow: hidden;
 	}
@@ -187,11 +187,11 @@ margin: 30px auto 0 auto;
 		float:left;
 		height: 29px;
 		line-height: 29px;
-		width: 78px;
+		width: 120px;
 		overflow: hidden;
 		padding: 0 1px;
-		border-bottom: 1px solid #ffcccc;
-		background: #ffeeee;
+		border-bottom: 1px solid rgba(0, 0, 0, 0);
+		background: rgba(0, 0, 0, 0);
 	}
 	
 	li.select{
