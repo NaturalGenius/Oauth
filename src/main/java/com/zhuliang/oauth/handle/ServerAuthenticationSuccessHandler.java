@@ -8,21 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.alibaba.fastjson.JSON;
 import com.zhuliang.oauth.result.Result;
 import com.zhuliang.oauth.result.enums.GlobalResultCode;
+import com.zhuliang.oauth.util.JwtTokenUtil;
 
 public class ServerAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
-
+    private String tokenHead = "Bearer ";
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		response.setContentType("application/json;charset=UTF-8");
-        PrintWriter writer = response.getWriter();
+		String generateToken = JwtTokenUtil.generateToken((UserDetails)authentication.getPrincipal());
+		PrintWriter writer = response.getWriter();
         writer.write(JSON.toJSONString(
-                Result.newInstance().setResultCode(GlobalResultCode.SUCCESS).setData("欢迎访问系统")));		
+                Result.newInstance().setResultCode(GlobalResultCode.SUCCESS).setData(tokenHead + generateToken)));		
 	}
 
 }

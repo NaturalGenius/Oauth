@@ -44,6 +44,7 @@ public class PhoneAuthenticationSecurityConfig extends SecurityConfigurerAdapter
          http
          .authenticationProvider(phoneAuthenticationProvider)
          .addFilterAfter(phoneAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+         super.configure(http);
 	}
 
 }

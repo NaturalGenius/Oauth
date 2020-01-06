@@ -11,14 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.zhuliang.oauth.dto.PermissionDto;
@@ -31,13 +29,18 @@ import com.zhuliang.oauth.service.PermissionService;
  * @author zhuliang
  * @date 2019年12月3日
  */
-@Component
 public class CustomSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     private static Logger logger = LoggerFactory.getLogger(CustomSecurityMetadataSource.class);
     private Map<RequestMatcher, Collection<ConfigAttribute>> permissionMap;
-    @Autowired
     private PermissionService permissionService;
+    private FilterInvocationSecurityMetadataSource  superMetadataSource;
+
+
+    public CustomSecurityMetadataSource(FilterInvocationSecurityMetadataSource expressionBasedFilterInvocationSecurityMetadataSource,PermissionService permissionService){
+         this.superMetadataSource = expressionBasedFilterInvocationSecurityMetadataSource;
+         this.permissionService = permissionService;
+    }
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         logger.info("[资源被访问：根据URL找到权限配置]: {}\n {}", object, permissionMap);
@@ -55,7 +58,8 @@ public class CustomSecurityMetadataSource implements FilterInvocationSecurityMet
                 }
             }
         }
-        return null;
+       //  返回代码定义的默认配置
+       return superMetadataSource.getAttributes(object);
     }
 
     @Override

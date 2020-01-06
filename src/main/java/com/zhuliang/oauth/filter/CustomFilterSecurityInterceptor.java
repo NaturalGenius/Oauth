@@ -7,7 +7,6 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.stereotype.Component;
 
 import com.zhuliang.oauth.manage.CustomAccessDecisionManager;
 
@@ -17,7 +16,7 @@ import com.zhuliang.oauth.manage.CustomAccessDecisionManager;
  * @author zhuliang
  * @date 2019年12月3日
  */
-@Component
+//@Component
 public class CustomFilterSecurityInterceptor extends FilterSecurityInterceptor{
 
     @Autowired
