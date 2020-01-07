@@ -8,10 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,13 +21,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import com.zhuliang.oauth.contact.LoginContact;
 import com.zhuliang.oauth.filter.JwtAuthenticationTokenFilter;
 import com.zhuliang.oauth.handle.CustomAccessDeniedHandler;
+import com.zhuliang.oauth.handle.JwtLogoutHandler;
 import com.zhuliang.oauth.handle.ServerAuthenticationFailureHandler;
 import com.zhuliang.oauth.handle.ServerAuthenticationSuccessHandler;
 import com.zhuliang.oauth.provider.DbAuthenticationProvider;
@@ -57,9 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private PhoneAuthenticationSecurityConfig phoneAuthenticationSecurityConfig;
 	
-//	@Autowired
-//	private CustomFilterSecurityInterceptor customFilterSecurityInterceptor;
-	
 	@Autowired
 	private CustomAccessDeniedHandler customAccessDeniedHandler;
 	@Autowired
@@ -81,7 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 return fsi;
             }
         })
-        .antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
+      //  .antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
+        .antMatchers(HttpMethod.OPTIONS, "/**").anonymous()
         .anyRequest().authenticated()
         .accessDecisionManager(accessDecisionManager())
         .and()
@@ -94,20 +97,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .failureHandler(new ServerAuthenticationFailureHandler())
                 // .defaultSuccessUrl("/")
                 // .failureUrl("")
-                .and().csrf().disable();
+                .and()
+                .logout()
+                .addLogoutHandler(new JwtLogoutHandler())
+                .and().csrf().disable()
+                ;
         //初级实现验证码
            //  http.addFilterBefore(verificationCodeFIlter, UsernamePasswordAuthenticationFilter.class);
         http.apply(phoneAuthenticationSecurityConfig)
         .and()
-              .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+              .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()).accessDeniedHandler(customAccessDeniedHandler);
         //session 会话管理
         http
-      //  .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
         .sessionManagement()
-       // .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .maximumSessions(1)
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      //  .sessionFixation().migrateSession()
+      //   .maximumSessions(1)
             //.maxSessionsPreventsLogin(true)
-            .expiredSessionStrategy(customSessionInformationExpiredStrategy)
+         //.expiredSessionStrategy(customSessionInformationExpiredStrategy)
             ;
     }
     
@@ -120,6 +128,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
     public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/static/**", "/test/**", "/kaptcha/image");
     	super.configure(web);
     }
     
@@ -131,6 +140,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
             // new RoleVoter(),
             new RoleBasedVoter(),
             new AuthenticatedVoter());
-        return new UnanimousBased(decisionVoters);
+        return new AffirmativeBased(decisionVoters);
     }
 }

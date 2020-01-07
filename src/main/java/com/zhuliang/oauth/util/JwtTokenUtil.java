@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +20,8 @@ public class JwtTokenUtil {
 	private static final String CLAIM_KEY_CREATED = "created";
 	private final static String secret = "zhuliang";
 	private final static Long expiration = 3600 * 5L;
-
+	private final static String tokenHeader = "accesstoken";
+    private final static String tokenHead = "Bearer ";
 	/**
 	 * 根据负责生成JWT的token
 	 */
@@ -112,5 +115,15 @@ public class JwtTokenUtil {
 		Claims claims = getClaimsFromToken(token);
 		claims.put(CLAIM_KEY_CREATED, new Date());
 		return generateToken(claims);
+	}
+	
+	public static String getTokenFromRequest(HttpServletRequest request) {
+	    if (request != null) {
+            String authHeader = request.getHeader(tokenHeader);
+            if (authHeader != null && authHeader.startsWith(tokenHead)) {
+                return authHeader.substring(tokenHead.length());
+            }
+        }
+	    return null;
 	}
 }
