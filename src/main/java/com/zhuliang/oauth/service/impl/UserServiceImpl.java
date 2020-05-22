@@ -1,5 +1,6 @@
 package com.zhuliang.oauth.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Override
 	@Transactional
 	public User selectByAccount(String account) {
+	    if (StringUtils.isEmpty(account)) {
+            return null;
+        }
 		return getOne(Wrappers.<User>query().eq(User.ACCOUNT, account));
 	}
 	
@@ -32,5 +36,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @PreAuthorize("hasPermission(#id, 'SAVE')")
     public void saveUser(User user) {
         super.save(user);
+    }
+    
+    @Override
+    public User selectByPhone(String phone) {
+        if (StringUtils.isEmpty(phone)) {
+            return null;
+        }
+        return getOne(Wrappers.<User>query().eq(User.TELPHONE, phone));
     }
 }

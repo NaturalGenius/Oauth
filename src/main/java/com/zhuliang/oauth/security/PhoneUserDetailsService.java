@@ -25,7 +25,7 @@ public class PhoneUserDetailsService implements UserDetailsService{
 	private RoleService roleService;
 	@Override
 	public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
-		User user = userService.selectByAccount(phone);
+		User user = userService.selectByPhone(phone);
 		if (user == null) {
 			throw new UsernameNotFoundException("账号不存在");
 		}
