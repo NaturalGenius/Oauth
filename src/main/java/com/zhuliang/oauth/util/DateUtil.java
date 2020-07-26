@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+
 public class DateUtil {
 
      private static final String ZONED_DATE_TIME_FORMATTER_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -313,5 +314,8 @@ public class DateUtil {
                 return "";
             }
         }
-    
+    public static void main(String[] args) {
+    	System.out.println(DateUtil.parse("2020-01-01 00:00:00").getTime());
+
+	}
 }

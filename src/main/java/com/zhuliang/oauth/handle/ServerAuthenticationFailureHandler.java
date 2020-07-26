@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.alibaba.fastjson.JSON;
+import com.zhuliang.oauth.contact.LoginContact;
 import com.zhuliang.oauth.result.Result;
 import com.zhuliang.oauth.result.enums.GlobalResultCode;
 
@@ -25,6 +26,7 @@ public class ServerAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
+        //response.sendRedirect(LoginContact.LOGIN_PATH);
         PrintWriter writer = response.getWriter();
         writer.write(JSON.toJSONString(Result.newInstance().setResultCode(GlobalResultCode.LOGIN_ERROR)
                 .setMessage(exception.getMessage())));

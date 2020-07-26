@@ -4,12 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -20,9 +22,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
 import com.zhuliang.oauth.contact.LoginContact;
 import com.zhuliang.oauth.filter.JwtAuthenticationTokenFilter;
@@ -31,6 +35,7 @@ import com.zhuliang.oauth.handle.ServerAuthenticationFailureHandler;
 import com.zhuliang.oauth.handle.ServerAuthenticationSuccessHandler;
 import com.zhuliang.oauth.provider.DbAuthenticationProvider;
 import com.zhuliang.oauth.provider.PhoneAuthenticationProvider;
+import com.zhuliang.oauth.security.DbUserDetailsService;
 import com.zhuliang.oauth.service.PermissionService;
 import com.zhuliang.oauth.source.metadata.CustomSecurityMetadataSource;
 import com.zhuliang.oauth.strategy.CustomSessionInformationExpiredStrategy;
@@ -49,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	@Qualifier("dbAuthenticationProvider")
 	private DbAuthenticationProvider dbAuthenticationProvider;
-	
+	@Autowired
+	private DbUserDetailsService dbUserDetailsService;
 	@Autowired
 	@Qualifier("dbWebAuthenticationDetailsSource")
 	private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> dbWebAuthenticationDetailsSource;
@@ -69,6 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    private DataSource dataSource;
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -81,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 return fsi;
             }
         })
-        .antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
+       // .antMatchers("/static/**", "/test/**", "/kaptcha/image").permitAll()
         .anyRequest().authenticated()
         .accessDecisionManager(accessDecisionManager())
         .and()
@@ -101,14 +109,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         .and()
               .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
         //session 会话管理
-        http
-      //  .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-        .sessionManagement()
-       // .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .maximumSessions(1)
-            //.maxSessionsPreventsLogin(true)
-            .expiredSessionStrategy(customSessionInformationExpiredStrategy)
-            ;
+//        http
+//      //  .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+//     //   .sessionManagement()
+//        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//            .maximumSessions(1)
+//            .maxSessionsPreventsLogin(true)
+//           .expiredSessionStrategy(customSessionInformationExpiredStrategy);
+          http.rememberMe().tokenRepository(jdbcTokenRepositoryImpl())
+          .tokenValiditySeconds(60 * 60 * 24 *7)
+          .userDetailsService(dbUserDetailsService)
+  
+          //实现事件
+          ;
+          http.oauth2Login().failureHandler((req, res, e) -> {
+              res.sendRedirect("/login.html");;
+          });
+        ;
     }
     
     @Override
@@ -120,6 +137,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
     public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/static/**", "/test/**", "/kaptcha/image");
     	super.configure(web);
     }
     
@@ -131,6 +149,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
             // new RoleVoter(),
             new RoleBasedVoter(),
             new AuthenticatedVoter());
-        return new UnanimousBased(decisionVoters);
+        return new AffirmativeBased(decisionVoters);
+    }
+    
+    @Bean
+    public JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl() {
+        JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepositoryImpl.setDataSource(dataSource);
+    //    jdbcTokenRepositoryImpl.setCreateTableOnStartup(true);
+        return jdbcTokenRepositoryImpl;
     }
 }

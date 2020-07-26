@@ -5,6 +5,14 @@ spring:
     user:
       name: user
       password: user
+    oauth2:      client:        registration:          github:
+            client-id: 0551005337b5f369f62e
+            client-secret: 287a6e6cacdc0ba964aed2788610be9af206137e
+            authorization-grant-type: authorization_code
+        provider:          github:
+            token-uri: https://github.com/login/oauth/access_token
+            authorization-uri: https://github.com/login/oauth/authorize
+            user-info-uri: https://api.github.com/user
   datasource:
     password: zhuliang
     username: root

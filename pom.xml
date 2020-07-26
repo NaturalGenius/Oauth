@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zhuliang.oauth</groupId>
-	<artifactId>OAhth</artifactId>
+	<artifactId>OAuth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>OAhth</name>
+	<name>OAuth</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -27,6 +27,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+      </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -91,6 +99,11 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.0</version>
 		</dependency>
+		<dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.5.5</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -101,5 +114,19 @@
 			</plugin>
 		</plugins>
 	</build>
-
+<!--阿里镜像 -->
+    <!-- <pluginRepositories>
+        <pluginRepository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories> -->
 </project>

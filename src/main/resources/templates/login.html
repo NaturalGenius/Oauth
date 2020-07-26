@@ -38,8 +38,15 @@
 		      <div class="login-btn-left" th:onclick="submit(1)">
 		        <span>登录</span>
 		      </div>
-		      <div class="login-btn-right" th:onclick="changeImg1()">
-		        <img th:src="@{/static/img/check.png}" alt="" id="picture"> 记住密码
+		      <div class="login-btn-right">
+		      	<input name="remember-me" type="checkbox"> 记住密码
+		        <!-- <img th:src="@{/static/img/check.png}" alt="" id="picture"> 记住密码 -->
+		      </div>
+		      <div class="login-btn-right">
+		      	<a th:href="@{/oauth2/authorization/github}">github
+		      			         <img th:src="@{/static/img/github.png}" alt="">
+		      	
+		      	</a>
 		      </div>
 		    </div>
 		  </p>
@@ -58,7 +65,6 @@
               </div>
          </div>
 		  </p>	
-		  </section>
  		</div>
  </div>
    </div>

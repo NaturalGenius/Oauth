@@ -40,6 +40,7 @@ public class PhoneAuthenticationSecurityConfig extends SecurityConfigurerAdapter
          phoneAuthenticationFilter.setAuthenticationFailureHandler(new ServerAuthenticationFailureHandler());
          phoneAuthenticationFilter.setAuthenticationSuccessHandler(new ServerAuthenticationSuccessHandler());
          phoneAuthenticationFilter.setAuthenticationDetailsSource(phoneWebAuthenticationDetailsSource);
+         //获取容器中已经存在的认证管理器
          phoneAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
          http
          .authenticationProvider(phoneAuthenticationProvider)

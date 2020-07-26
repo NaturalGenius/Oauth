@@ -24,7 +24,7 @@ import com.zhuliang.oauth.handle.ServerAuthenticationFailureHandler;
  * @author zhuliang
  * @date 2019年11月22日
  */
-@Component
+//@Component
 public class VerificationCodeFIlter extends OncePerRequestFilter{
 
     private AuthenticationFailureHandler authenticationFailureHandler = new ServerAuthenticationFailureHandler();

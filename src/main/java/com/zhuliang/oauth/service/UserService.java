@@ -19,4 +19,7 @@ public interface UserService extends IService<User> {
 	
 	@PreAuthorize("hasPermission(#id, 'SAVE')")
 	void saveUser(User user);
+	
+    User selectByPhone(String phone);
+
 }

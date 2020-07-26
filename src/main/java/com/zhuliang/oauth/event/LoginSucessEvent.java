@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 import com.zhuliang.oauth.util.DateUtil;
@@ -26,7 +28,15 @@ public class LoginSucessEvent {
     @EventListener
     @Async
     public void listenEvent(AuthenticationSuccessEvent event) {
-        UserDetails userDetails = (UserDetails) event.getAuthentication().getPrincipal();
-        logger.info("用户:{} 在{} 登录系统", userDetails.getUsername(), DateUtil.format(new Date()));
+        Object principal = event.getAuthentication().getPrincipal();
+         String userName;
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        }else if (principal instanceof OAuth2User) {
+            userName = ((OAuth2User) principal).getName();
+        }else {
+            userName = principal.toString();
+        }
+        logger.info("用户:{} 在{} 登录系统", userName, DateUtil.format(new Date()));
     }
 }

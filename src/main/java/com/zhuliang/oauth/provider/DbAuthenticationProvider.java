@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.zhuliang.oauth.exception.VerificationCodeException;
 import com.zhuliang.oauth.security.DbUserDetailsService;
 import com.zhuliang.oauth.source.detail.DbWebAuthenticationDetails;
+import com.zhuliang.oauth.token.PhoneAuthenticationToken;
 
 /**
  * 用户名密码登陆 新增验证码验证逻辑 由于spring security 已经提供了
@@ -52,6 +53,7 @@ public class DbAuthenticationProvider extends DaoAuthenticationProvider{
 	
 	@Override
 	public boolean supports(Class<?> authentication) {
-	     return authentication.isAssignableFrom(UsernamePasswordAuthenticationToken.class);
+	     return super.supports(authentication)
+	         && !PhoneAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 }
