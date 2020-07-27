@@ -10,6 +10,6 @@ public class AdminController {
 
     @GetMapping
     public String testSpringSecurity() {
-        return "你好 spring security";
+        return "你好 spring security admin";
     }
 }

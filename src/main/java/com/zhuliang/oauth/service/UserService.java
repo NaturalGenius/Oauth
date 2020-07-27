@@ -20,6 +20,10 @@ public interface UserService extends IService<User> {
 	@PreAuthorize("hasPermission(#id, 'SAVE')")
 	void saveUser(User user);
 	
-    User selectByPhone(String phone);
-
+	/**
+	 * 根据手机号查询用户
+	 * @param phone
+	 * @return
+	 */
+	User selectByPhone(String phone);
 }

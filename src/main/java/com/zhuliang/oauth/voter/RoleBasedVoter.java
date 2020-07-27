@@ -3,6 +3,7 @@ package com.zhuliang.oauth.voter;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -27,7 +28,10 @@ public class RoleBasedVoter implements AccessDecisionVoter<Object> {
 
 	@Override
 	public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
-		logger.info("[资源权限]: {}", attributes);
+	    if (authentication == null) {
+            return ACCESS_DENIED;
+        }
+	    logger.info("[资源权限]: {}", attributes);
 		logger.info("[用户权限]: {}", authentication.getAuthorities());
 
 		Iterator<ConfigAttribute> it = attributes.iterator();
@@ -36,7 +40,7 @@ public class RoleBasedVoter implements AccessDecisionVoter<Object> {
 			// 资源的权限
 			ConfigAttribute resourceAttr = it.next();
 			String resourceRole = resourceAttr.getAttribute();
-            if (resourceRole == null) {
+            if (StringUtils.isBlank(resourceRole)) {
 				continue;
 			}
             if (this.supports(resourceAttr)) {

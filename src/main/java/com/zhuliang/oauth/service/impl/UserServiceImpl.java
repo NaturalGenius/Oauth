@@ -30,13 +30,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return getOne(Wrappers.<User>query().eq(User.ACCOUNT, account));
     }
+	
 
     @Override
     @PreAuthorize("hasPermission(#id, 'SAVE')")
     public void saveUser(User user) {
         super.save(user);
     }
-
+    
     @Override
     public User selectByPhone(String phone) {
         if (StringUtils.isEmpty(phone)) {
