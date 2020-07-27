@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
             public <O extends FilterSecurityInterceptor> O postProcess(
                 O fsi) {
                 fsi.setSecurityMetadataSource(new CustomSecurityMetadataSource(fsi.getSecurityMetadataSource(), permissionService));
+              //  fsi.setPublishAuthorizationSuccess(true);
                 return fsi;
             }
         })

@@ -9,8 +9,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
 
 import com.zhuliang.oauth.filter.PhoneAuthenticationFilter;
@@ -40,6 +42,11 @@ public class PhoneAuthenticationSecurityConfig extends SecurityConfigurerAdapter
          phoneAuthenticationFilter.setAuthenticationFailureHandler(new ServerAuthenticationFailureHandler());
          phoneAuthenticationFilter.setAuthenticationSuccessHandler(new ServerAuthenticationSuccessHandler());
          phoneAuthenticationFilter.setAuthenticationDetailsSource(phoneWebAuthenticationDetailsSource);
+         
+         //实现记住我功能
+         phoneAuthenticationFilter.setRememberMeServices(http.getSharedObject(RememberMeServices.class));
+         //同一用户多次登录问题
+         phoneAuthenticationFilter.setSessionAuthenticationStrategy(http.getSharedObject(SessionAuthenticationStrategy.class));
          //获取容器中已经存在的认证管理器
          phoneAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
          http

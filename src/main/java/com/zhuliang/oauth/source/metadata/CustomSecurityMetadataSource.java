@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.ConfigAttribute;
@@ -49,6 +50,10 @@ public class CustomSecurityMetadataSource implements FilterInvocationSecurityMet
             loadResourceDefine();
         }
         final HttpServletRequest request = ((FilterInvocation) object).getRequest();
+        Collection<ConfigAttribute> attributes = permissionMap.get(new AntPathRequestMatcher(request.getServletPath(), request.getMethod()));
+        if (!CollectionUtils.isEmpty(attributes)) {
+            return attributes;
+        }
         for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : permissionMap.entrySet()) {
             if (entry.getKey().matches(request)) {
                 logger.info("[找到的Key]: {}", entry.getKey());

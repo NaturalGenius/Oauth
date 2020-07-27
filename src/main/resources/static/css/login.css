@@ -195,11 +195,12 @@ margin: 30px auto 0 auto;
 	}
 	
 	li.select{
-		background: #fff;
+		/*background: #fff;*/
 		padding: 0;
 		border-left: 1px solid  #ffcccc;
 		border-right: 1px solid  #ffcccc;
 		border-bottom: 1px solid #fff;	
+		border-top: 1px solid #fff;	
 	}
 	/*tab-head end tab-panel begin*/
 	.tab-panel{

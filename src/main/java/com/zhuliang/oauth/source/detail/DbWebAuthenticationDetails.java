@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import com.zhuliang.oauth.contact.KaptchaContact;
+import com.zhuliang.oauth.exception.VerificationCodeException;
 
 public class DbWebAuthenticationDetails extends WebAuthenticationDetails {
 
@@ -27,7 +28,9 @@ public class DbWebAuthenticationDetails extends WebAuthenticationDetails {
 		if (StringUtils.isNotEmpty(kaptcha) && StringUtils.isNotEmpty(code) && Objects.equals(kaptcha, code)) {
 			// 验证码正确
 			this.imageCodeIsRight = true;
-		}
+		}else {
+		    throw new VerificationCodeException();
+        }
 	}
 
 	public boolean isImageCodeIsRight() {
