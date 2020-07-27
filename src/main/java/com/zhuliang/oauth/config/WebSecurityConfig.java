@@ -105,14 +105,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 // .failureUrl("")
                 .and()
                 .logout()
-                .addLogoutHandler(new JwtLogoutHandler())
+             //   .addLogoutHandler(new JwtLogoutHandler())
                 .and().csrf().disable()
                 ;
         //初级实现验证码
            //  http.addFilterBefore(verificationCodeFIlter, UsernamePasswordAuthenticationFilter.class);
         http.apply(phoneAuthenticationSecurityConfig)
         .and()
-              .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()).accessDeniedHandler(customAccessDeniedHandler);
+              .exceptionHandling()
+             // .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+              .accessDeniedHandler(customAccessDeniedHandler);
         //session 会话管理
 //        http
 //      //  .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
@@ -128,6 +130,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
           //实现事件
           ;
           http.oauth2Login().failureHandler((req, res, e) -> {
+              e.printStackTrace();
               res.sendRedirect("/login.html");;
           });
         ;
